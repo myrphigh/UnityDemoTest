@@ -9,6 +9,8 @@ public class MoveBehaviour : GenericBehaviour
 	public float speedDampTime = 0.1f;              // Default damp time to change the animations based on current speed.
 	public string jumpButton = "Jump";              // Default jump button.
 	public float jumpHeight = 1.5f;                 // Default jump height.
+	public float jumpHeightSkill = 4f;
+	public float jumpHeightOrigin = 1.5f;
 	public float jumpIntertialForce = 10f;          // Default horizontal inertial force when jumping.
 
 	private float speed, speedSeeker;               // Moving speed.
@@ -17,9 +19,12 @@ public class MoveBehaviour : GenericBehaviour
 	private bool jump;                              // Boolean to determine whether or not the player started a jump.
 	private bool isColliding;                       // Boolean to determine if the player has collided with an obstacle.
 
+	private PlayerController pc;
 	// Start is always called after any Awake functions.
 	void Start()
 	{
+		pc = GetComponent<PlayerController>();
+		jumpHeightOrigin = jumpHeight;
 		// Set up the references.
 		jumpBool = Animator.StringToHash("Jump");
 		groundedBool = Animator.StringToHash("Grounded");
@@ -37,7 +42,18 @@ public class MoveBehaviour : GenericBehaviour
 		// Get jump input.
 		if (!jump && Input.GetButtonDown(jumpButton) && behaviourManager.IsCurrentBehaviour(this.behaviourCode) && !behaviourManager.IsOverriding())
 		{
+			jumpHeight = jumpHeightOrigin;
 			jump = true;
+		}
+
+		if (!jump && Input.GetKeyDown(KeyCode.V) && behaviourManager.IsCurrentBehaviour(this.behaviourCode) && !behaviourManager.IsOverriding())
+		{
+			jumpHeight = jumpHeightOrigin;
+			jump = true;
+			if (PlayerController.playerStateId == 1)
+			{
+				jumpHeight = pc.TryBigJump();
+			}
 		}
 	}
 
@@ -80,7 +96,7 @@ public class MoveBehaviour : GenericBehaviour
 			// Keep forward movement while in the air.
 			if (!behaviourManager.IsGrounded() && !isColliding && behaviourManager.GetTempLockStatus())
 			{
-				behaviourManager.GetRigidBody.AddForce(transform.forward * jumpIntertialForce * Physics.gravity.magnitude * sprintSpeed, ForceMode.Acceleration);
+				behaviourManager.GetRigidBody.AddForce(transform.forward * jumpIntertialForce * Physics.gravity.magnitude * sprintSpeed * 3f, ForceMode.Acceleration);
 			}
 			// Has landed?
 			if ((behaviourManager.GetRigidBody.velocity.y < 0) && behaviourManager.IsGrounded())

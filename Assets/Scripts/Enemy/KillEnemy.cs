@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class KillEnemy : MonoBehaviour
 {
-	public Skill sk;
-	private GameObject ob;
+	public GameObject deathParticle;
+	public GameObject deathReward;
+
+	public GameObject parentEnemy;
 	void OnTriggerEnter(Collider other)
 	{
-		ob = other.gameObject;
-		if(ob.tag == "Enemy")
-		{
-			float temp = ob.GetComponent<Enemy>().returnPoint();
-			sk.reward(temp);
-			Destroy(ob);
-		}
+        if (other.gameObject.CompareTag("Player") && parentEnemy.GetComponent<EnemyController>().enemyTypeId != PlayerController.playerStateId)
+        {
+			GameObject particle = Instantiate(deathParticle,transform.position,transform.rotation);
+			GameObject reward = Instantiate(deathReward, transform.position, transform.rotation);
+			reward.GetComponent<Rigidbody>().AddForce(0f,4f,0f);
+			Destroy(parentEnemy);
+        }
 	}
 }

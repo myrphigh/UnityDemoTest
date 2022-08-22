@@ -25,13 +25,6 @@ public class MovingPlat : MonoBehaviour
 		patrolStart = true;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
     IEnumerator FollowPath(Vector3[] waypoints) {
 		transform.position = waypoints [0];
 
@@ -60,5 +53,21 @@ public class MovingPlat : MonoBehaviour
 			previousPosition = waypoint.position;
 		}
 		Gizmos.DrawLine (previousPosition, startPosition);
+	}
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+			PlayerController.Instance.gameObject.transform.SetParent(transform);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+		if (collision.gameObject.CompareTag("Player"))
+		{
+			DontDestroyOnLoad(collision.gameObject);
+		}
 	}
 }

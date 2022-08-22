@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 // This class manages which player behaviour is active or overriding, and call its local functions.
 // Contains basic setup and common functions used by all the player behaviours.
@@ -27,6 +28,8 @@ public class BasicBehaviour : MonoBehaviour
 	private Rigidbody rBody;                              // Reference to the player's rigidbody.
 	private int groundedBool;                             // Animator variable related to whether or not the player is on the ground.
 	private Vector3 colExtents;                           // Collider extents for ground test. 
+
+	
 
 	// Get current horizontal and vertical axes.
 	public float GetH { get { return h; } }
@@ -71,7 +74,15 @@ public class BasicBehaviour : MonoBehaviour
 		anim.SetFloat(vFloat, v, 0.1f, Time.deltaTime);
 
 		// Toggle sprint by input.
-		sprint = Input.GetButton (sprintButton);
+
+        if (Input.GetButton(sprintButton) && PlayerController.stealState == false && PlayerController.playerStateId == 0 && PlayerController.inTouchWithFloorId == 0)
+        {
+			if (GetComponent<PlayerController>().TryStealth())
+			{
+				sprint = true;
+				StartCoroutine(SprintCounter());
+			}
+		}
 
 		// Set the correct camera FOV for sprint mode.
 		if(IsSprinting())
@@ -87,6 +98,12 @@ public class BasicBehaviour : MonoBehaviour
 		// Set the grounded test on the Animator Controller.
 		anim.SetBool(groundedBool, IsGrounded());
 	}
+
+	IEnumerator SprintCounter()
+    {
+		yield return new WaitForSeconds(GetComponent<PlayerController>().stealSec);
+		sprint = false;
+    }
 
 	// Call the FixedUpdate functions of the active or overriding behaviours.
 	void FixedUpdate()

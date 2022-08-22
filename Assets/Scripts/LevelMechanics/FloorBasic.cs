@@ -20,6 +20,7 @@ public class FloorBasic : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerController.inTouchWithFloorId = floorTypeId;
+            Debug.Log("Player Enter" + floorTypeId);
         }
     }
 
@@ -28,6 +29,7 @@ public class FloorBasic : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerController.inTouchWithFloorId = 2;
+            Debug.Log("Player Exit" + floorTypeId);
         }
     }
 }
