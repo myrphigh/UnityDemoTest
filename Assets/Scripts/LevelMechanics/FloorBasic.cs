@@ -11,6 +11,8 @@ public class FloorBasic : MonoBehaviour
     //damage = true healing = false
     public bool damagingOrHealing;
 
+    private bool exitStatus = false;
+    IEnumerator exitHolder;
     private void Start()
     {
 
@@ -20,6 +22,7 @@ public class FloorBasic : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerController.inTouchWithFloorId = floorTypeId;
+            exitStatus = false;
             Debug.Log("Player Enter" + floorTypeId);
         }
     }
@@ -28,8 +31,18 @@ public class FloorBasic : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerController.inTouchWithFloorId = 2;
+            exitStatus = true;
+            StartCoroutine(exitProcess());
             Debug.Log("Player Exit" + floorTypeId);
+        }
+    }
+
+    IEnumerator exitProcess()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (exitStatus)
+        {
+            PlayerController.inTouchWithFloorId = 2;
         }
     }
 }

@@ -22,6 +22,10 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         [Tooltip("If target is null then use the target position")]
         public SharedVector3 targetPosition;
 
+        public override void OnAwake()
+        {
+            targetPosition = transform.position;   
+        }
         public override TaskStatus OnUpdate()
         {
             var position = Target();
