@@ -75,12 +75,17 @@ public class BasicBehaviour : MonoBehaviour
 
 		// Toggle sprint by input.
 
-        if (Input.GetButton(sprintButton) && PlayerController.stealState == false && PlayerController.playerStateId == 0 && PlayerController.inTouchWithFloorId == 0)
+        if (Input.GetButton(sprintButton) && ((PlayerController.stealState == false && PlayerController.playerStateId == 0 && PlayerController.inTouchWithFloorId == 0)|| (PlayerController.strongState == false && PlayerController.playerStateId == 1 && PlayerController.inTouchWithFloorId == 1)))
         {
-			if (GetComponent<PlayerController>().TryStealth())
+			if (GetComponent<PlayerController>().TryStealth() && PlayerController.playerStateId == 0)
 			{
 				sprint = true;
-				StartCoroutine(SprintCounter());
+				StartCoroutine(SprintCounter(0));
+			}
+			if (GetComponent<PlayerController>().TryStrong() && PlayerController.playerStateId == 1)
+			{
+				sprint = true;
+				StartCoroutine(SprintCounter(1));
 			}
 		}
 
@@ -99,9 +104,16 @@ public class BasicBehaviour : MonoBehaviour
 		anim.SetBool(groundedBool, IsGrounded());
 	}
 
-	IEnumerator SprintCounter()
+	IEnumerator SprintCounter(int sprintState)
     {
+		if(sprintState == 1)
+        {
+			GetComponent<MoveBehaviour>().sprintSpeed = 1.4f;
+			GetComponent<MoveBehaviour>().jumpHeight = 10f;
+		}
 		yield return new WaitForSeconds(GetComponent<PlayerController>().stealSec);
+		GetComponent<MoveBehaviour>().sprintSpeed = 0.7f;
+		GetComponent<MoveBehaviour>().jumpHeight = 1.5f;
 		sprint = false;
     }
 

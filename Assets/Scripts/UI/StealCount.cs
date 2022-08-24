@@ -13,6 +13,14 @@ public class StealCount : MonoBehaviour
     {
         slider.maxValue = player.GetComponent<PlayerController>().stealSec;
         slider.value = slider.maxValue;
+        if(PlayerController.playerStateId == 0)
+        {
+            transform.GetChild(1).GetChild(0).GetComponent<Image>().color = new Vector4(0.3764706f, 0.2352941f, 1,1);
+        }
+        else
+        {
+            transform.GetChild(1).GetChild(0).GetComponent<Image>().color = new Vector4(1, 0.3411765f, 0.3764706f, 1);
+        }
     }
     private void Awake()
     {

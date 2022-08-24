@@ -9,6 +9,7 @@ public class PlayerController : Singleton<PlayerController>
     public GameObject renderedObject;
     public Material[] inputMaterial;
     public Material stealthMaterial;
+    public Material strongMaterial;
 
     public GameObject[] skillPointHolders;
 
@@ -20,6 +21,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public static int inTouchWithFloorId = 2;
     public static bool stealState;
+    public static bool strongState;
     public float stealSec = 5f;
 
     public Slider switchSlider;
@@ -31,6 +33,8 @@ public class PlayerController : Singleton<PlayerController>
     void Start()
     {
         stealState = false;
+        strongState = false;
+
         playerHealth = healthSlider.value;
         playerMaxHealth = healthSlider.maxValue;
     }
@@ -38,7 +42,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         switchSlider.value -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.E) && switchSlider.value == 0 && stealState == false)
+        if (Input.GetKeyDown(KeyCode.E) && switchSlider.value == 0 && stealState == false && strongState == false)
         {
             SwitchState();
         }
@@ -89,7 +93,6 @@ public class PlayerController : Singleton<PlayerController>
                 UseSkillPoint(0);
             }
         }
-
         updatePlayerState();
     }
 
@@ -154,6 +157,33 @@ public class PlayerController : Singleton<PlayerController>
             }
         }
         return false;
+    }
+
+    public bool TryStrong()
+    {
+        if (playerStateId == 1)
+        {
+            int skillPoint;
+            int.TryParse(skillPointHolders[1].GetComponent<TextMeshProUGUI>().text, out skillPoint);
+            if (skillPoint > 0 && inTouchWithFloorId == 1 && strongState == false)
+            {
+                UseSkillPoint(1);
+                strongState = true;
+                StartCoroutine(StrongC());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    IEnumerator StrongC()
+    {
+        stealthSlider.gameObject.SetActive(true);
+        renderedObject.GetComponent<SkinnedMeshRenderer>().material = strongMaterial;
+        yield return new WaitForSeconds(stealSec);
+        strongState = false;
+        renderedObject.GetComponent<SkinnedMeshRenderer>().material = inputMaterial[playerStateId];
+        Debug.Log("End strong");
     }
 
     IEnumerator StealthC()

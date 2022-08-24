@@ -46,7 +46,7 @@ public class MoveBehaviour : GenericBehaviour
 			jump = true;
 		}
 
-		if (!jump && Input.GetKeyDown(KeyCode.V) && behaviourManager.IsCurrentBehaviour(this.behaviourCode) && !behaviourManager.IsOverriding())
+/*		if (!jump && Input.GetKeyDown(KeyCode.V) && behaviourManager.IsCurrentBehaviour(this.behaviourCode) && !behaviourManager.IsOverriding())
 		{
 			jumpHeight = jumpHeightOrigin;
 			jump = true;
@@ -54,7 +54,7 @@ public class MoveBehaviour : GenericBehaviour
 			{
 				jumpHeight = pc.TryBigJump();
 			}
-		}
+		}*/
 	}
 
 	// LocalFixedUpdate overrides the virtual function of the base class.
