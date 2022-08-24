@@ -95,7 +95,8 @@ public class PlayerController : Singleton<PlayerController>
 
     public static void PlayerRestart()
     {
-        playerHealth = playerMaxHealth;  
+        playerHealth = playerMaxHealth;
+        inTouchWithFloorId = 2;
     }
 
     void UpdateTouchingResult()
@@ -127,8 +128,12 @@ public class PlayerController : Singleton<PlayerController>
             int.TryParse(skillPointHolders[1].GetComponent<TextMeshProUGUI>().text, out skillPoint);
             if(skillPoint > 0 && inTouchWithFloorId == 1)
             {
-                UseSkillPoint(1);
-                return 3f;
+                Rigidbody rb = GetComponent<Rigidbody>();
+                if (rb.velocity.magnitude > 0.5f)
+                {
+                    UseSkillPoint(1);
+                    return 3f;
+                }
             }
         }
         return 1f;
