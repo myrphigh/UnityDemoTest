@@ -20,7 +20,7 @@ public class PlayerPushObject : MonoBehaviour
     	GameObject ob = hit.collider.gameObject;
         var rigidBody = hit.collider.attachedRigidbody;
 
-        if (rigidBody != null&& ob.tag == "Movable")
+        if (rigidBody != null&& ob.tag == "MovableRed" && PlayerController.strongState)
         {
             var forceDirection = hit.gameObject.transform.position - transform.position;
             forceDirection.y = 0;
