@@ -14,14 +14,23 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         public SharedFloat waypointPauseDuration = 0;
         [Tooltip("The waypoints to move to")]
         public SharedGameObjectList waypoints;
+        public SharedInt[] waypointsTransformIndex;
 
         // The current index that we are heading towards within the waypoints array
         private int waypointIndex;
         private float waypointReachedTime;
 
-        public override void OnStart()
+        public override void OnAwake()
         {
-            base.OnStart();
+            base.OnAwake();
+
+            if (waypoints.Value[0] == null)
+            {
+                for(int i = 0; i < waypointsTransformIndex.Length; i++)
+                {
+                    waypoints.Value[i] = transform.parent.parent.GetChild(3).GetChild(i).gameObject;
+                }
+            }
 
             // initially move towards the closest waypoint
             float distance = Mathf.Infinity;

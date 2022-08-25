@@ -44,6 +44,10 @@ public class MoveBehaviour : GenericBehaviour
 		{
 			jumpHeight = jumpHeightOrigin;
 			jump = true;
+			if (PlayerController.playerStateId == 1)
+			{
+				jumpHeight = pc.TryBigJump();
+			}
 		}
 
 /*		if (!jump && Input.GetKeyDown(KeyCode.V) && behaviourManager.IsCurrentBehaviour(this.behaviourCode) && !behaviourManager.IsOverriding())

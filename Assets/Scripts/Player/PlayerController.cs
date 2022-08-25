@@ -60,6 +60,12 @@ public class PlayerController : Singleton<PlayerController>
         {
             LevelManager.LevelRestart();
         }
+
+        if(strongState && Input.GetKeyDown(KeyCode.Space))
+        {
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.AddForce(new Vector3(0f, 50f, 0f));
+        }
     }
 
     void updatePlayerState()
@@ -127,15 +133,13 @@ public class PlayerController : Singleton<PlayerController>
     {
         if(playerStateId == 1)
         {
-            int skillPoint;
-            int.TryParse(skillPointHolders[1].GetComponent<TextMeshProUGUI>().text, out skillPoint);
-            if(skillPoint > 0 && inTouchWithFloorId == 1)
+            if(inTouchWithFloorId == 1 && strongState)
             {
                 Rigidbody rb = GetComponent<Rigidbody>();
                 if (rb.velocity.magnitude > 0.5f)
                 {
-                    UseSkillPoint(1);
-                    return 3f;
+                    //UseSkillPoint(1);
+                    return 4f;
                 }
             }
         }

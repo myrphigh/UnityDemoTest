@@ -108,8 +108,8 @@ public class BasicBehaviour : MonoBehaviour
     {
 		if(sprintState == 1)
         {
-			GetComponent<MoveBehaviour>().sprintSpeed = 1.4f;
-			GetComponent<MoveBehaviour>().jumpHeight = 10f;
+			GetComponent<MoveBehaviour>().sprintSpeed = 1f;
+			GetComponent<MoveBehaviour>().jumpHeight = 5f;
 		}
 		yield return new WaitForSeconds(GetComponent<PlayerController>().stealSec);
 		GetComponent<MoveBehaviour>().sprintSpeed = 0.7f;
