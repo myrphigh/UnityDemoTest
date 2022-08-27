@@ -28,7 +28,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
             {
                 for(int i = 0; i < waypointsTransformIndex.Length; i++)
                 {
-                    waypoints.Value[i] = transform.parent.parent.GetChild(3).GetChild(i).gameObject;
+                    waypoints.Value[i] = transform.parent.parent.GetChild(4).GetChild(waypointsTransformIndex[i].Value).gameObject;
                 }
             }
 

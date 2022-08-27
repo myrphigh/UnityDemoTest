@@ -16,11 +16,13 @@ public class SniperBullet : MonoBehaviour
         target = (temp - transform.position).normalized;
         Debug.Log("x: " + target.x + "y: " + target.y + "z: " + target.z);
         Rigidbody = GetComponent<Rigidbody>();
+        Rigidbody.velocity = target * 13f;
+        transform.SetParent(null);
     }
 
     private void FixedUpdate()
     {
-        Rigidbody.MovePosition(transform.position + target * Time.deltaTime * 13f);
+        //Rigidbody.MovePosition(transform.position + target * Time.deltaTime * 13f);
     }
     private void OnCollisionEnter(Collision collision)
     {

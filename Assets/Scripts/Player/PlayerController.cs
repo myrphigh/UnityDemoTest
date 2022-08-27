@@ -192,9 +192,11 @@ public class PlayerController : Singleton<PlayerController>
 
     IEnumerator StealthC()
     {
+        gameObject.layer = LayerMask.NameToLayer("PlayerStealth");
         stealthSlider.gameObject.SetActive(true);
         renderedObject.GetComponent<SkinnedMeshRenderer>().material = stealthMaterial;
         yield return new WaitForSeconds(stealSec);
+        gameObject.layer = LayerMask.NameToLayer("PlayerPurple");
         stealState = false;
         renderedObject.GetComponent<SkinnedMeshRenderer>().material = inputMaterial[playerStateId];
         Debug.Log("End stealth");
