@@ -136,10 +136,10 @@ public class PlayerController : Singleton<PlayerController>
             if(inTouchWithFloorId == 1 && strongState)
             {
                 Rigidbody rb = GetComponent<Rigidbody>();
-                if (rb.velocity.magnitude > 0.5f)
+                if (rb.velocity.magnitude > 0.2f)
                 {
                     //UseSkillPoint(1);
-                    return 4f;
+                    return 5f;
                 }
             }
         }
