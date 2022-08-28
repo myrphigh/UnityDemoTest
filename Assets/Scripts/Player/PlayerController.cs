@@ -71,7 +71,7 @@ public class PlayerController : Singleton<PlayerController>
     void updatePlayerState()
     {
         renderedObject.GetComponent<SkinnedMeshRenderer>().material = inputMaterial[playerStateId];
-        switchSlider.value = switchSlider.maxValue;
+        
     }
 
     public void SwitchState()
@@ -85,7 +85,11 @@ public class PlayerController : Singleton<PlayerController>
                 skillPoint--;
                 playerStateId = 1;
                 gameObject.layer = LayerMask.NameToLayer("PlayerRed"); 
-                UseSkillPoint(1);
+                if (!(inTouchWithFloorId == 1))
+                {
+                    UseSkillPoint(1);
+                }
+                switchSlider.value = switchSlider.maxValue;
             }
         }
         else
@@ -96,7 +100,11 @@ public class PlayerController : Singleton<PlayerController>
                 skillPoint--;
                 playerStateId = 0;
                 gameObject.layer = LayerMask.NameToLayer("PlayerPurple");
-                UseSkillPoint(0);
+                if (!(inTouchWithFloorId == 0))
+                {
+                    UseSkillPoint(0);
+                }
+                switchSlider.value = switchSlider.maxValue;
             }
         }
         updatePlayerState();
@@ -129,21 +137,21 @@ public class PlayerController : Singleton<PlayerController>
         int.TryParse(skillPointHolders[id].GetComponent<TextMeshProUGUI>().text, out temp);
         skillPointHolders[id].GetComponent<TextMeshProUGUI>().text = (temp - 1).ToString();
     }
-    public float TryBigJump(float targetH)
+    public float TryBigJump(float targetH,float originH)
     {
         if(playerStateId == 1)
         {
             if(inTouchWithFloorId == 1 && strongState)
             {
                 Rigidbody rb = GetComponent<Rigidbody>();
-                if (rb.velocity.magnitude > 0.2f)
+                if (rb.velocity.magnitude > 0.1f)
                 {
                     //UseSkillPoint(1);
                     return targetH;
                 }
             }
         }
-        return 1f;
+        return originH;
     }
 
     public bool TryStealth()

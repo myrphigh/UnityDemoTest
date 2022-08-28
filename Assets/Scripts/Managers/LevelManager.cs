@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class LevelManager : Singleton<LevelManager>
 {
@@ -9,12 +10,14 @@ public class LevelManager : Singleton<LevelManager>
 
     [SerializeField]
     public GameObject[] spawnPointOfEachLevel;
-
+    public TextMeshProUGUI levelNumber;
     public static Vector3[] spawnPointPositions;
 
     public static GameObject player;
     void Start()
     {
+        levelNumber.text = currentLevelIndex.ToString();
+
         player = GameObject.FindWithTag("Player");
         spawnPointPositions = new Vector3[spawnPointOfEachLevel.Length];
         foreach(GameObject entry in spawnPointOfEachLevel)
@@ -26,6 +29,7 @@ public class LevelManager : Singleton<LevelManager>
     }
     void Update()
     {
+        levelNumber.text = currentLevelIndex.ToString();
         if (Input.GetKeyDown(KeyCode.R))
         {
             LevelRestart();
