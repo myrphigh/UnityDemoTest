@@ -129,7 +129,7 @@ public class PlayerController : Singleton<PlayerController>
         int.TryParse(skillPointHolders[id].GetComponent<TextMeshProUGUI>().text, out temp);
         skillPointHolders[id].GetComponent<TextMeshProUGUI>().text = (temp - 1).ToString();
     }
-    public float TryBigJump()
+    public float TryBigJump(float targetH)
     {
         if(playerStateId == 1)
         {
@@ -139,7 +139,7 @@ public class PlayerController : Singleton<PlayerController>
                 if (rb.velocity.magnitude > 0.2f)
                 {
                     //UseSkillPoint(1);
-                    return 5f;
+                    return targetH;
                 }
             }
         }

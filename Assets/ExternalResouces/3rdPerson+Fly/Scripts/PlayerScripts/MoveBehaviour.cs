@@ -46,7 +46,7 @@ public class MoveBehaviour : GenericBehaviour
 			jump = true;
 			if (PlayerController.playerStateId == 1)
 			{
-				jumpHeight = pc.TryBigJump();
+				jumpHeight = pc.TryBigJump(jumpHeightSkill);
 			}
 		}
 
