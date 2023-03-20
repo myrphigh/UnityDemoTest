@@ -20,4 +20,5 @@ public class CameraAngle : MonoBehaviour
         	localTrans.LookAt(2 * localTrans.position - mLookAt.position);
         }
     }
+   
 }
